@@ -1,14 +1,13 @@
 ## Decisiones de diseño:
 
 - Opté por crear 2 clases principales: **Call** para las llamadas e **Invoice** para la factura mensual.
-- **Call** es una clase **abstracta** que tiene los atributos comunes a las calls: ``CallDateTime`` (Hora y fecha de llamada) y ``duration``. 
-Sin embargo, como clase abstracta tiene un método abstracto ``getCost()`` el cual sus subclases implementan. Adicionalmente tiene un método constructor y getters para sus atributos.
+- **Call** es una clase **abstracta** que tiene los atributos comunes a las calls: ``CallDateTime`` (Hora y fecha de llamada) y ``duration``. Como clase abstracta tiene un método abstracto ``getCost()`` el cual sus subclases implementan. Adicionalmente tiene un método constructor y getters para sus atributos.
 
 - **Call** cuenta con 2 subclases: **LocalCall** y **LongDistanceCall**; esta otra es una clase abstracta que hace de superclase a **InternationalCall** y **NationalCall**. 
 
 - Opté por crear **LongDistanceCall** ya que las 2 clases hijas comparten una forma similar de calcular su costo. 
-- Decidí que tanto **InternationalCall** como **NationalCall** tengan c/u una **variable de clase** de tipo ``Dictionary``. Esta ``Dictionary`` tiene como ``key`` el nombre de lugar y de ``value`` el costo del lugar.
-Decidí utilizar una variable de clase ya que todas las instancias de estas 2 clases necesitan acceder al respectivo ``Dictionary`` de la clase para calcular su costo.
+
+- Decidí que tanto **InternationalCall** como **NationalCall** tengan c/u una **variable de clase** de tipo ``Dictionary``. Este ``Dictionary`` tiene como ``key`` el nombre de lugar y de ``value`` el costo del lugar. Decidí utilizar una variable de clase ya que todas las instancias de estas 2 clases necesitan acceder al respectivo ``Dictionary`` de la clase para calcular su costo.
 
 - Ambas clases hijas tiene un método de clase ``initialize`` para cargar los ``Dictionary`` con valores por default.
 
