@@ -12,65 +12,14 @@ Los sábados y domingos cuesta 0,10 centavos el minuto
 Class {
 	#name : #LocalCall,
 	#superclass : #Call,
-	#instVars : [
-		'workingTimeCost',
-		'notWorkingCost',
-		'weekendCost'
-	],
 	#category : #'Mercap - Calls-Base'
 }
 
 { #category : #accessing }
 LocalCall >> getCost [
-	| date isWeekDay isWorkingHour|
-	date := callDateTime asDate.
-	isWeekDay := false.
-	isWorkingHour := false.
-	
-	(date weekdayIndex >= 1 and: date weekdayIndex < 6) 
-	ifTrue: [ isWeekDay := true ].
 
-	(callDateTime hour >= 8 and: callDateTime hour < 20) 
-	ifTrue: [ isWorkingHour := true ].
-	
-	(isWeekDay and: isWorkingHour)
+	((callDateTime asDate weekdayIndex between: 1 and: 6) and: [callDateTime hour between: 8 and: 20])
 	ifTrue:  [ ^duration * 0.2 ]
 	ifFalse: [ ^duration * 0.1 ] 
 
-]
-
-{ #category : #accessing }
-LocalCall >> notWorkingCost [
-
-	^ notWorkingCost
-]
-
-{ #category : #accessing }
-LocalCall >> notWorkingCost: anObject [
-
-	notWorkingCost := anObject
-]
-
-{ #category : #accessing }
-LocalCall >> weekendCost [
-
-	^ weekendCost
-]
-
-{ #category : #accessing }
-LocalCall >> weekendCost: anObject [
-
-	weekendCost := anObject
-]
-
-{ #category : #accessing }
-LocalCall >> workingTimeCost [
-
-	^ workingTimeCost
-]
-
-{ #category : #accessing }
-LocalCall >> workingTimeCost: anObject [
-
-	workingTimeCost := anObject
 ]

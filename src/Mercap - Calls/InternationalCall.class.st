@@ -18,11 +18,6 @@ Class {
 	#category : #'Mercap - Calls-Base'
 }
 
-{ #category : #'class initialization' }
-InternationalCall class >> Countries: countriesCosts [
- Countries:= countriesCosts 
-]
-
 { #category : #'instance creation' }
 InternationalCall class >> callDateTime: aCallDateTime duration: aDuration country: aCountry [
 	| call |
@@ -33,16 +28,28 @@ InternationalCall class >> callDateTime: aCallDateTime duration: aDuration count
 ]
 
 { #category : #'class initialization' }
+InternationalCall class >> countries [
+	^Countries
+]
+
+{ #category : #'class initialization' }
+InternationalCall class >> countries: aCollection [
+ Countries:= aCollection 
+]
+
+{ #category : #'class initialization' }
 InternationalCall class >> initialize [ 
-	
-	Countries := Dictionary new.
-	Countries
+	| countriesDict |
+	countriesDict := Dictionary new.
+	countriesDict
     at: 'United States' put: 2; 
     at: 'China' put: 4; 
     at: 'Japan' put: 5; 
     at: 'Germany' put: 3; 
     at: 'India' put: 2; 
     at: 'Canada' put: 3.
+	
+	self countries: countriesDict.
 ]
 
 { #category : #accessing }
@@ -59,7 +66,7 @@ InternationalCall >> country: anObject [
 
 { #category : #accessing }
 InternationalCall >> getCost [
-	 ^ self getCostWith: Countries  and: country
+	 ^ self getCostWith: Countries and: country
 
 
 ]

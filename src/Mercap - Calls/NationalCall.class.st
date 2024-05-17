@@ -18,11 +18,6 @@ Class {
 	#category : #'Mercap - Calls-Base'
 }
 
-{ #category : #'class variables' }
-NationalCall class >> Cities: citiesCosts [
-	Cities := citiesCosts
-]
-
 { #category : #'instance creation' }
 NationalCall class >> callDateTime: aCallDateTime duration: aDuration city: aCity [
 	| call |
@@ -32,17 +27,30 @@ NationalCall class >> callDateTime: aCallDateTime duration: aDuration city: aCit
   ^call
 ]
 
+{ #category : #accessing }
+NationalCall class >> cities [
+	^Cities
+	
+]
+
+{ #category : #accessing }
+NationalCall class >> cities: aCollection [
+	Cities:= aCollection 
+	
+]
+
 { #category : #'class initialization' }
 NationalCall class >> initialize [ 
-	
-	Cities := Dictionary new.
-	Cities
+	| citiesDict |
+	citiesDict := Dictionary new.
+	citiesDict
     at: 'La Plata' put: 2; 
     at: 'Florencio Varela' put: 4; 
     at: 'Burzaco' put: 5; 
     at: 'Escobar' put: 3; 
     at: 'Santa Fe' put: 2; 
     at: 'Rosario' put: 3.
+	self cities: citiesDict.
 ]
 
 { #category : #accessing }

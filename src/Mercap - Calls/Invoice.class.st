@@ -40,8 +40,7 @@ Invoice >> getBaseCost [
 Invoice >> getLocalCallsCost [
 	| localCalls totalCost |
 	localCalls := calls select: [ :each | each isKindOf: LocalCall ].
-	"totalCost := localCalls collect: [:each | each getCost] sum."
-	totalCost := localCalls inject: 0 into: [ :sum :each | sum + (each getCost)].
+	totalCost := localCalls inject: 0 into: [ :sum :each | sum + each getCost].
 	
 	^ totalCost
 ]
@@ -49,8 +48,7 @@ Invoice >> getLocalCallsCost [
 { #category : #data }
 Invoice >> getLongDistanceCallsCost [
 	| longCalls totalCost |
-	longCalls := calls select: [ :each | each isKindOf: InternationalCall ].
-"	totalCost := longCalls collect: [:each | each getCost] sum."
+	longCalls := calls select: [ :each | each isKindOf: LongDistanceCall ].
 	totalCost := longCalls inject: 0 into: [ :sum :each | sum + (each getCost)].
 	^ totalCost
 ]
@@ -58,7 +56,7 @@ Invoice >> getLongDistanceCallsCost [
 { #category : #data }
 Invoice >> getTotalCost [
 	
-	^ (self getLocalCallsCost + self getLongDistanceCallsCost)
+	^ (self getBaseCost  + self getLocalCallsCost + self getLongDistanceCallsCost)
 ]
 
 { #category : #accessing }
@@ -69,31 +67,34 @@ Invoice >> month [
 
 { #category : #accessing }
 Invoice >> month: aMonth year: aYear calls: listCalls [
+
 	|monthCalls|
+	"Throw error if year > 2024 or month>12 / month<1"
+	monthCalls := listCalls.
+	monthCalls := listCalls select: [ :each | (each callDateTime month = aMonth) and: [each callDateTime year = aYear]].
+
+	calls:= monthCalls.
 	
-	monthCalls := listCalls select: [ :each | 
-        (each callDateTime asDate month = aMonth and: [ each callDateTime asDate year = aYear ])
-    ].
 	month:= aMonth.
 	year:= aYear.
-	
-	calls:= monthCalls.
 ]
 
 { #category : #data }
 Invoice >> monthlyPayment [
 	
-	|baseCost localCost longDistanceCost |
+	|baseCost localCost longDistanceCost totalCost |
 	
-	baseCost := self getBaseCost.
-	localCost := self getLocalCallsCost.
-	longDistanceCost := self getLongDistanceCallsCost.
+	baseCost := self getBaseCost printShowingDecimalPlaces: 2.
+	localCost := self getLocalCallsCost printShowingDecimalPlaces: 2.
+	longDistanceCost := self getLongDistanceCallsCost printShowingDecimalPlaces: 2.
+	totalCost := self getTotalCost printShowingDecimalPlaces: 2.
 	
 Transcript 
     nextPutAll: 'Period: '; nextPutAll: self month asString; nextPutAll: '/'; nextPutAll: self year asString; cr;
     nextPutAll: 'Basic subscription: '; nextPutAll: baseCost asString; cr;
     nextPutAll: 'Local calls cost: '; nextPutAll: localCost asString; cr;
-    nextPutAll: 'National and international calls cost: '; nextPutAll: longDistanceCost asString; cr.
+    nextPutAll: 'National and international calls cost: '; nextPutAll: longDistanceCost asString; cr;
+	 nextPutAll: 'Total cost: '; nextPutAll: totalCost asString; cr.
 	
 	
 
