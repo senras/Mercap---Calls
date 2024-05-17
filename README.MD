@@ -28,8 +28,8 @@ De los métodos para calcular costos:
 - Mismo control al crear llamadas.
 - Se podría representar con variables los costos en las **LocalCall**, pero por practicidad puse solo los valores tal cual en el método ``getCost()``.
 
-
----
+<br/>
+<br/>
 ---
 
 ### Input para probar en Playground el programa:
