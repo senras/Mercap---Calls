@@ -30,8 +30,8 @@ De los métodos para calcular costos:
 
 <br/>
 <br/>
----
 
+---
 ### Input para probar en Playground el programa:
 
 ```
